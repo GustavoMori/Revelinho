@@ -42,3 +42,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'byebug' #tchau tchau bug
 
 gem 'jsonapi-serializer' #Serializer of jsons
+
+gem 'rspec-rails' 
