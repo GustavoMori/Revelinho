@@ -1,10 +1,4 @@
 describe Skill do
-  describe 'When create a skill without name' do
-    it 'return NotnullViolation' do
-      expect { Skill.create }.to raise_error(ActiveRecord::NotNullViolation)
-    end
-  end
-
   describe '#candidates' do
     it 'Can be associated with candidates' do
       skill = Skill.create(name: 'ruby')
@@ -24,20 +18,27 @@ describe Skill do
     end
   end
 
-  describe '#name' do
-    it 'verify that ruby is a valid name' do
-      skill = Skill.create name: 'ruby'
-      expect(skill.name).to eq('ruby')
+  describe 'Names validations' do
+    context 'When create a skill without name' do
+      it 'is invalid' do
+        skill = Skill.new(name: nil)
+        expect(skill).not_to be_valid
+      end
     end
 
-    it 'verify that rails is a valid name' do
+    it 'allow ruby as a name' do
+      skill = Skill.new(name: 'ruby')
+      expect(skill).to be_valid
+    end
+    
+    it 'allow rails as a name' do
       skill = Skill.create name: 'rails'
-      expect(skill.name).to eq('rails')
+      expect(skill).to be_valid
     end
 
-    it 'verify that javascript is a valid name' do
+    it 'allow javascript as a name' do
       skill = Skill.create name: 'javascript'
-      expect(skill.name).to eq('javascript')
+      expect(skill).to be_valid
     end
   end
 end
