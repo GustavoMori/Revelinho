@@ -6,4 +6,5 @@ class Skill < ApplicationRecord
   }
   has_many :candidates_skills
   has_many :candidates, through: :candidates_skills, primary_key: :candidate_id
+  validates :name, presence: true
 end
