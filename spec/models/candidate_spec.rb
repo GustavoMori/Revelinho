@@ -54,4 +54,14 @@ describe Candidate do
       expect(subject.careers).to eq('backend')
     end
   end
+  
+  describe '#save' do
+    context 'When email is not unique' do
+      it 'does not save record' do
+        described_class.create(name: 'Oko', email: 'oko.oko@revelo.com.br')
+        
+        expect(subject.save).to be false
+      end
+    end
+  end
 end
