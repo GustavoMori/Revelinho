@@ -1,6 +1,6 @@
 class CandidatesController < ApplicationController
   def index
-    candidate = Candidate.all()
+    candidate = Candidate.all
     #render json: Candidate.all()
     render json: CandidateSerializer.new(candidate, include: [:skills])
   end
@@ -18,7 +18,7 @@ class CandidatesController < ApplicationController
   def create
     new_candidate = Candidate.new(candidate_params)
 
-    if new_candidate.save()
+    if new_candidate.save
       render json: CandidateSerializer.new(new_candidate)
     else
       head :unprocessable_entity
