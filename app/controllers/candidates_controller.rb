@@ -1,7 +1,7 @@
 class CandidatesController < ApplicationController
   def index
     candidate = Candidate.all
-    #render json: Candidate.all()
+
     render json: CandidateSerializer.new(candidate, include: [:skills])
   end
 
@@ -31,5 +31,4 @@ class CandidatesController < ApplicationController
   def candidate_params
     params.require(:candidate).permit(:name, :email, :birthday, :cellphone, :careers)
   end
-
 end
