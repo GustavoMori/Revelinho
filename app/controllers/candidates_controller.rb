@@ -6,8 +6,9 @@ class CandidatesController < ApplicationController
   end
 
   def update
-    update_candidate = Candidate.find(params[:id])
-    
+    update_candidate = Candidate.find_by(id: (params[:id]))
+    return render status: :not_found if update_candidate.blank?
+
     if update_candidate.update(candidate_params)
       render json: CandidateSerializer.new(update_candidate)
     else
