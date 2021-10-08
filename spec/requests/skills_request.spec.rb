@@ -16,30 +16,31 @@ describe 'GET /skills' do
 
     json = JSON.parse(response.body).deep_symbolize_keys
     expect(json).to eq(
-    {
-      data: [
-        {
-          id: javascript.id,
-          type: 'skill',
-          attributes: {
-            name: 'javascript'
+      {
+        data: [
+          {
+            id: javascript.id,
+            type: 'skill',
+            attributes: {
+              name: 'javascript'
+            }
+          },
+          {
+            id: ruby.id,
+            type: 'skill',
+            attributes: {
+              name: 'ruby'
+            }
+          },
+          {
+            id: rails.id,
+            type: 'skill',
+            attributes: {
+              name: 'rails'
+            }
           }
-        },
-        {
-          id: ruby.id,
-          type: 'skill',
-          attributes: {
-            name: 'ruby'
-          }
-        },
-        {
-          id: rails.id,
-          type: 'skill',
-          attributes: {
-            name: 'rails'
-          }
-        }
-      ]
-    })
+        ]
+      }
+    )
   end
 end

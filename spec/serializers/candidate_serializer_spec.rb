@@ -20,13 +20,18 @@ describe CandidateSerializer do
           data: {
             id: candidate.id,
             type: :candidate,
-            attributes: { name: candidate.name, email: candidate.email, birthday: candidate.birthday,
-                          cellphone: candidate.cellphone, careers: candidate.careers },
-            relationships: { skills: { data: [{ id: javascript.id,
-                                                type: :skill }] } }
+            attributes: {
+              name: candidate.name,
+              email: candidate.email,
+              birthday: candidate.birthday,
+              cellphone: candidate.cellphone,
+              careers: candidate.careers
+            },
+            relationships: { skills: { data: [{ id: javascript.id, type: :skill }] } }
           },
           included: [
-            { id: javascript.id, type: :skill,
+            { id: javascript.id,
+              type: :skill,
               attributes: { name: javascript.name } }
           ]
         }

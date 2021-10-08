@@ -68,31 +68,35 @@ describe 'POST /candidates' do
     end
 
     it 'http status 200' do
-      post '/candidates',
-           params: {
-             candidate: {
-               name: subject.name,
-               email: subject.email,
-               birthday: subject.birthday,
-               cellphone: subject.cellphone,
-               careers: subject.careers
-             }
-           }
+      post(
+        '/candidates',
+        params: {
+          candidate: {
+            name: subject.name,
+            email: subject.email,
+            birthday: subject.birthday,
+            cellphone: subject.cellphone,
+            careers: subject.careers
+          }
+        }
+      )
 
       expect(response).to have_http_status(200)
     end
 
     it 'return true if a candidate was created' do
-      post '/candidates',
-           params: {
-             candidate: {
-               name: subject.name,
-               email: subject.email,
-               birthday: subject.birthday,
-               cellphone: subject.cellphone,
-               careers: subject.careers
-             }
-           }
+      post(
+        '/candidates',
+        params: {
+          candidate: {
+            name: subject.name,
+            email: subject.email,
+            birthday: subject.birthday,
+            cellphone: subject.cellphone,
+            careers: subject.careers
+          }
+        }
+      )
 
       finded_candidate = Candidate.find_by(email: subject.email)
       expect(finded_candidate).to have_attributes(
@@ -120,16 +124,18 @@ describe 'POST /candidates' do
         careers: 'frontend'
       )
 
-      post '/candidates',
-           params: {
-             candidate: {
-               name: candidate_already_exists.name,
-               birthday: candidate_already_exists.birthday,
-               email: candidate_already_exists.email,
-               cellphone: candidate_already_exists.cellphone,
-               careers: candidate_already_exists.careers
-             }
-           }
+      post(
+        '/candidates',
+        params: {
+          candidate: {
+            name: candidate_already_exists.name,
+            birthday: candidate_already_exists.birthday,
+            email: candidate_already_exists.email,
+            cellphone: candidate_already_exists.cellphone,
+            careers: candidate_already_exists.careers
+          }
+        }
+      )
 
       expect(response).to have_http_status(422)
     end
@@ -148,15 +154,17 @@ describe 'POST /candidates' do
 
     context 'Without email' do
       it 'return a unprocessable entity (422)' do
-        post '/candidates',
-             params: {
-               candidate: {
-                 name: subject.name,
-                 birthday: subject.birthday,
-                 cellphone: subject.cellphone,
-                 careers: subject.careers
-               }
-             }
+        post(
+          '/candidates',
+          params: {
+            candidate: {
+              name: subject.name,
+              birthday: subject.birthday,
+              cellphone: subject.cellphone,
+              careers: subject.careers
+            }
+          }
+        )
 
         expect(response).to have_http_status(422)
       end
@@ -164,15 +172,17 @@ describe 'POST /candidates' do
 
     context 'Without attribute != email' do
       it 'return Internal Server Error' do
-        post '/candidates',
-             params: {
-               candidate: {
-                 birthday: subject.birthday,
-                 email: subject.email,
-                 cellphone: subject.cellphone,
-                 careers: subject.careers
-               }
-             }
+        post(
+          '/candidates',
+          params: {
+            candidate: {
+              birthday: subject.birthday,
+              email: subject.email,
+              cellphone: subject.cellphone,
+              careers: subject.careers
+            }
+          }
+        )
 
         expect(response).to have_http_status(200)
       end
@@ -198,20 +208,22 @@ describe 'PATCH /candidates/:id' do
           name: 'CarrEiras',
           email: 'CarrEiras@CarrEiras.com.br',
           birthday: '13-12-2003',
-          cellphone: '40028930', careers:
-          'fullstack'
+          cellphone: '40028930',
+          careers: 'fullstack'
         )
 
-        patch "/candidates/#{subject.id}",
-              params: {
-                candidate: {
-                  name: updated_subject.name,
-                  email: updated_subject.email,
-                  birthday: updated_subject.birthday,
-                  cellphone: updated_subject.cellphone,
-                  careers: updated_subject.careers
-                }
-              }
+        patch(
+          "/candidates/#{subject.id}",
+          params: {
+            candidate: {
+              name: updated_subject.name,
+              email: updated_subject.email,
+              birthday: updated_subject.birthday,
+              cellphone: updated_subject.cellphone,
+              careers: updated_subject.careers
+            }
+          }
+        )
 
         expect(response).to have_http_status(200)
       end
@@ -225,16 +237,18 @@ describe 'PATCH /candidates/:id' do
           careers: 'fullstack'
         )
 
-        patch "/candidates/#{subject.id}",
-              params: {
-                candidate: {
-                  name: updated_subject.name,
-                  email: updated_subject.email,
-                  birthday: updated_subject.birthday,
-                  cellphone: updated_subject.cellphone,
-                  careers: updated_subject.careers
-                }
-              }
+        patch(
+          "/candidates/#{subject.id}",
+          params: {
+            candidate: {
+              name: updated_subject.name,
+              email: updated_subject.email,
+              birthday: updated_subject.birthday,
+              cellphone: updated_subject.cellphone,
+              careers: updated_subject.careers
+            }
+          }
+        )
         json = JSON.parse(response.body).deep_symbolize_keys
 
         expect(json).to eq(
@@ -270,16 +284,18 @@ describe 'PATCH /candidates/:id' do
           careers: 'fullstack'
         )
 
-        patch '/candidates/1111',
-              params: {
-                candidate: {
-                  name: update_subject.name,
-                  email: update_subject.email,
-                  birthday: update_subject.birthday,
-                  cellphone: update_subject.cellphone,
-                  careers: update_subject.careers
-                }
-              }
+        patch(
+          '/candidates/1111',
+          params: {
+            candidate: {
+              name: update_subject.name,
+              email: update_subject.email,
+              birthday: update_subject.birthday,
+              cellphone: update_subject.cellphone,
+              careers: update_subject.careers
+            }
+          }
+        )
 
         expect(response).to have_http_status(404)
       end
