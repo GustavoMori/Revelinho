@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe CandidatesSkill do
   describe 'Association with skills' do
     it 'Can be associated with skills' do

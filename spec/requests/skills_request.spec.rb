@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 describe 'GET /skills' do
   it 'http status 200' do
-    get "/skills"
+    get '/skills'
 
     expect(response).to have_http_status(200)
   end
@@ -10,33 +12,34 @@ describe 'GET /skills' do
     ruby = Skill.create(name: 'ruby')
     rails = Skill.create(name: 'rails')
 
-    get "/candidates"
+    get '/skills'
 
     json = JSON.parse(response.body).deep_symbolize_keys
+    expect(json).to eq(
     {
       data: [
         {
           id: javascript.id,
-          type: "skill",
+          type: 'skill',
           attributes: {
-            name: "javascript"
+            name: 'javascript'
           }
         },
         {
           id: ruby.id,
-          type: "skill",
+          type: 'skill',
           attributes: {
-            name: "ruby"
+            name: 'ruby'
           }
         },
         {
           id: rails.id,
-          type: "skill",
+          type: 'skill',
           attributes: {
-            "name": "rails"
+            name: 'rails'
           }
         }
       ]
-    }
+    })
   end
 end

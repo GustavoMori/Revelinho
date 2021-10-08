@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe Skill do
   describe '#candidates' do
     it 'Can be associated with candidates' do
@@ -13,7 +15,7 @@ describe Skill do
       candidate = Candidate.create(name: 'Oko', email: 'oko.oko@revelo.com.br')
       skill = Skill.create(name: 'ruby')
       candidates_skills = CandidatesSkill.create(candidate_id: candidate.id, skill: skill)
-      
+
       expect(skill.candidates_skills).to eq([candidates_skills])
     end
   end
@@ -30,7 +32,7 @@ describe Skill do
       skill = Skill.new(name: 'ruby')
       expect(skill).to be_valid
     end
-    
+
     it 'allow rails as a name' do
       skill = Skill.create name: 'rails'
       expect(skill).to be_valid

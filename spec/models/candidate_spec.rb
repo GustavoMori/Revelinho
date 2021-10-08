@@ -1,5 +1,6 @@
-describe Candidate do
+# frozen_string_literal: true
 
+describe Candidate do
   subject { described_class.new(name: 'Oko', email: 'oko.oko@revelo.com.br') }
 
   describe 'When create a candidate, validate the emails is obligated' do
@@ -27,7 +28,7 @@ describe Candidate do
       subject.save
       skill = Skill.create(name: 'ruby')
       candidates_skills = CandidatesSkill.create(candidate_id: subject.id, skill: skill)
-      
+
       expect(subject.candidates_skills).to eq([candidates_skills])
     end
   end
@@ -54,12 +55,12 @@ describe Candidate do
       expect(subject.careers).to eq('backend')
     end
   end
-  
+
   describe '#save' do
     context 'When email is not unique' do
       it 'does not save record' do
         described_class.create(name: 'Oko', email: 'oko.oko@revelo.com.br')
-        
+
         expect(subject.save).to be false
       end
     end

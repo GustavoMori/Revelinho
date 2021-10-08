@@ -1,0 +1,33 @@
+require:
+  - rubocop-rails
+
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 2.7
+  Exclude:
+    - Gemfile
+    - db/**/*
+    - vendor/**/*
+    - log/**/*
+    - tmp/**/*
+    - storage/**/*
+    - lib/tasks/**/*
+    - bin/*
+    - config/**/*
+
+Layout/LineLength:
+  Enabled: true
+  Max: 100
+  Exclude:
+    - 'Gemfile'
+
+Metrics/MethodLength:
+  CountAsOne: ['array', 'hash']
+Metrics/BlockLength:
+  CountAsOne: ['array', 'hash']
+  Exclude:
+    - 'spec/**/*'
+    - 'config/environments/*'
+
+Style/Documentation:
+  Enabled: false
