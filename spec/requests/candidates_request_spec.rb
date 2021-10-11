@@ -2,7 +2,8 @@
 
 describe 'GET /candidates' do
   it 'http status 200' do
-    get '/candidates'
+    headers = { 'Authentication-Token': ENV['AUTHENTICATION_TOKEN'] }
+    get '/candidates', headers: headers
 
     expect(response).to have_http_status(200)
   end
@@ -17,7 +18,8 @@ describe 'GET /candidates' do
       skills: [javascript]
     )
 
-    get '/candidates'
+    headers = { 'Authentication-Token': ENV['AUTHENTICATION_TOKEN'] }
+    get '/candidates', headers: headers
 
     json = JSON.parse(response.body).deep_symbolize_keys
     expect(json).to eq(
@@ -68,6 +70,8 @@ describe 'POST /candidates' do
     end
 
     it 'http status 200' do
+      headers = { 'Authentication-Token': ENV['AUTHENTICATION_TOKEN'] }
+
       post(
         '/candidates',
         params: {
@@ -78,13 +82,15 @@ describe 'POST /candidates' do
             cellphone: subject.cellphone,
             careers: subject.careers
           }
-        }
+        },
+        headers: headers
       )
 
       expect(response).to have_http_status(200)
     end
 
     it 'return true if a candidate was created' do
+      headers = { 'Authentication-Token': ENV['AUTHENTICATION_TOKEN'] }
       post(
         '/candidates',
         params: {
@@ -95,7 +101,8 @@ describe 'POST /candidates' do
             cellphone: subject.cellphone,
             careers: subject.careers
           }
-        }
+        },
+        headers: headers
       )
 
       finded_candidate = Candidate.find_by(email: subject.email)
@@ -124,6 +131,7 @@ describe 'POST /candidates' do
         careers: 'frontend'
       )
 
+      headers = { 'Authentication-Token': ENV['AUTHENTICATION_TOKEN'] }
       post(
         '/candidates',
         params: {
@@ -134,7 +142,8 @@ describe 'POST /candidates' do
             cellphone: candidate_already_exists.cellphone,
             careers: candidate_already_exists.careers
           }
-        }
+        },
+        headers: headers
       )
 
       expect(response).to have_http_status(422)
@@ -154,6 +163,7 @@ describe 'POST /candidates' do
 
     context 'Without email' do
       it 'return a unprocessable entity (422)' do
+        headers = { 'Authentication-Token': ENV['AUTHENTICATION_TOKEN'] }
         post(
           '/candidates',
           params: {
@@ -163,7 +173,8 @@ describe 'POST /candidates' do
               cellphone: subject.cellphone,
               careers: subject.careers
             }
-          }
+          },
+          headers: headers
         )
 
         expect(response).to have_http_status(422)
@@ -172,6 +183,7 @@ describe 'POST /candidates' do
 
     context 'Without attribute != email' do
       it 'return Internal Server Error' do
+        headers = { 'Authentication-Token': ENV['AUTHENTICATION_TOKEN'] }
         post(
           '/candidates',
           params: {
@@ -181,7 +193,8 @@ describe 'POST /candidates' do
               cellphone: subject.cellphone,
               careers: subject.careers
             }
-          }
+          },
+          headers: headers
         )
 
         expect(response).to have_http_status(200)
@@ -212,6 +225,7 @@ describe 'PATCH /candidates/:id' do
           careers: 'fullstack'
         )
 
+        headers = { 'Authentication-Token': ENV['AUTHENTICATION_TOKEN'] }
         patch(
           "/candidates/#{subject.id}",
           params: {
@@ -222,7 +236,8 @@ describe 'PATCH /candidates/:id' do
               cellphone: updated_subject.cellphone,
               careers: updated_subject.careers
             }
-          }
+          },
+          headers: headers
         )
 
         expect(response).to have_http_status(200)
@@ -237,6 +252,7 @@ describe 'PATCH /candidates/:id' do
           careers: 'fullstack'
         )
 
+        headers = { 'Authentication-Token': ENV['AUTHENTICATION_TOKEN'] }
         patch(
           "/candidates/#{subject.id}",
           params: {
@@ -247,7 +263,8 @@ describe 'PATCH /candidates/:id' do
               cellphone: updated_subject.cellphone,
               careers: updated_subject.careers
             }
-          }
+          },
+          headers: headers
         )
         json = JSON.parse(response.body).deep_symbolize_keys
 
@@ -284,6 +301,7 @@ describe 'PATCH /candidates/:id' do
           careers: 'fullstack'
         )
 
+        headers = { 'Authentication-Token': ENV['AUTHENTICATION_TOKEN'] }
         patch(
           '/candidates/1111',
           params: {
@@ -294,7 +312,8 @@ describe 'PATCH /candidates/:id' do
               cellphone: update_subject.cellphone,
               careers: update_subject.careers
             }
-          }
+          },
+          headers: headers
         )
 
         expect(response).to have_http_status(404)
