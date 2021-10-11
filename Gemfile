@@ -48,3 +48,5 @@ gem 'rspec-rails'
 gem 'rubocop'
 
 gem 'rubocop-rails'
+
+gem 'dotenv-rails'
