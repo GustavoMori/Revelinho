@@ -23,23 +23,23 @@ describe Skill do
   describe 'Names validations' do
     context 'When create a skill without name' do
       it 'is invalid' do
-        skill = Skill.new(name: nil)
+        skill = Skill.create(name: nil)
         expect(skill).not_to be_valid
       end
     end
 
     it 'allow ruby as a name' do
-      skill = Skill.new(name: 'ruby')
+      skill = Skill.create(name: 'ruby')
       expect(skill).to be_valid
     end
 
     it 'allow rails as a name' do
-      skill = Skill.create name: 'rails'
+      skill = Skill.create(name: 'rails')
       expect(skill).to be_valid
     end
 
     it 'allow javascript as a name' do
-      skill = Skill.create name: 'javascript'
+      skill = Skill.create(name: 'javascript')
       expect(skill).to be_valid
     end
   end
