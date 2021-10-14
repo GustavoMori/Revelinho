@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 describe Candidate do
-  subject { described_class.new(name: 'Oko', email: 'oko.oko@revelo.com.br') }
+  subject { build(:candidate) }
 
   describe 'When create a candidate, validate the emails is obligated' do
     it 'return true if email is valid' do
@@ -16,7 +16,7 @@ describe Candidate do
 
   describe '#skills' do
     it 'Can be associated with skills' do
-      skill = Skill.create(name: 'ruby')
+      skill = create(:skill)
       subject.skills = [skill]
 
       expect(subject.skills).to eq([skill])
@@ -26,8 +26,8 @@ describe Candidate do
   describe '#candidates_skills' do
     it 'Can associate candidates and skill' do
       subject.save
-      skill = Skill.create(name: 'ruby')
-      candidates_skills = CandidatesSkill.create(candidate_id: subject.id, skill: skill)
+      skill = create(:skill)
+      candidates_skills = create(:candidates_skill, candidate_id: subject.id, skill_id: skill.id)
 
       expect(subject.candidates_skills).to eq([candidates_skills])
     end
@@ -59,7 +59,7 @@ describe Candidate do
   describe '#save' do
     context 'When email is not unique' do
       it 'does not save record' do
-        described_class.create(name: 'Oko', email: 'oko.oko@revelo.com.br')
+        create(:candidate, email: 'oko.oko@revelo.com.br')
 
         expect(subject.save).to be false
       end
