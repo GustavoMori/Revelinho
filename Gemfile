@@ -50,3 +50,5 @@ gem 'rubocop'
 gem 'rubocop-rails'
 
 gem 'dotenv-rails'
+
+gem 'factory_bot_rails'
