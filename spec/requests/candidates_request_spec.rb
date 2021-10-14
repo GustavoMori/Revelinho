@@ -9,13 +9,16 @@ describe 'GET /candidates' do
   end
 
   it 'return list of all candidates' do
-    javascript = Skill.create(name: 'javascript')
+    ruby = Skill.create(name: 'ruby')
     candidate = Candidate.create(
       name: 'Oko',
       email: 'oko@oko.com.br',
       cellphone: '40028922',
-      careers: 'frontend',
-      skills: [javascript]
+      careers: 'frontend'
+    )
+    CandidatesSkill.create(
+      candidate_id: candidate.id,
+      skill_id: ruby.id
     )
 
     headers = { 'Authentication-Token': ENV['AUTHENTICATION_TOKEN'] }
@@ -38,7 +41,7 @@ describe 'GET /candidates' do
             skills: {
               data: [
                 {
-                  id: javascript.id,
+                  id: ruby.id,
                   type: 'skill'
                 }
               ]
@@ -46,10 +49,10 @@ describe 'GET /candidates' do
           }
         }],
         included: [{
-          id: javascript.id,
+          id: ruby.id,
           type: 'skill',
           attributes: {
-            name: 'javascript'
+            name: 'ruby'
           }
         }]
       }
@@ -71,7 +74,6 @@ describe 'POST /candidates' do
 
     it 'http status 200' do
       headers = { 'Authentication-Token': ENV['AUTHENTICATION_TOKEN'] }
-
       post(
         '/candidates',
         params: {
@@ -112,6 +114,41 @@ describe 'POST /candidates' do
         birthday: Date.new(1999, 12, 13),
         cellphone: subject.cellphone,
         careers: subject.careers
+      )
+    end
+
+    it 'return a candidate serialized' do
+      headers = { 'Authentication-Token': ENV['AUTHENTICATION_TOKEN'] }
+      post(
+        '/candidates',
+        params: {
+          candidate: {
+            name: subject.name,
+            email: subject.email,
+            birthday: subject.birthday,
+            cellphone: subject.cellphone,
+            careers: subject.careers
+          }
+        },
+        headers: headers
+      )
+
+      json = JSON.parse(response.body).deep_symbolize_keys
+      expect(json).to eq(
+        {
+          data: {
+            id: Candidate.find_by(email: subject.email).id,
+            type: 'candidate',
+            attributes: {
+              name: 'Oko',
+              email: 'oko.oko@revelo.com.br',
+              birthday: '1999-12-13',
+              cellphone: '40028922',
+              careers: 'frontend'
+            },
+            relationships: { skills: { data: [] } }
+          }
+        }
       )
     end
 
@@ -178,26 +215,6 @@ describe 'POST /candidates' do
         )
 
         expect(response).to have_http_status(422)
-      end
-    end
-
-    context 'Without attribute != email' do
-      it 'return Internal Server Error' do
-        headers = { 'Authentication-Token': ENV['AUTHENTICATION_TOKEN'] }
-        post(
-          '/candidates',
-          params: {
-            candidate: {
-              birthday: subject.birthday,
-              email: subject.email,
-              cellphone: subject.cellphone,
-              careers: subject.careers
-            }
-          },
-          headers: headers
-        )
-
-        expect(response).to have_http_status(200)
       end
     end
   end
@@ -291,7 +308,7 @@ describe 'PATCH /candidates/:id' do
       end
     end
 
-    context 'When id is not exists' do
+    context 'When id does not exists' do
       it 'http status 404' do
         update_subject = Candidate.new(
           name: 'CarrEiras',
