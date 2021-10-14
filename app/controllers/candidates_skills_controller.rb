@@ -12,7 +12,10 @@ class CandidatesSkillsController < ApplicationController
   end
 
   def destroy
-    if CandidatesSkill.find(params[:id]).destroy
+    candidates_skill = CandidatesSkill.find_by(id: params[:id])
+    return render status: :not_found if candidates_skill.blank?
+
+    if candidates_skill.destroy
       head :no_content
     else
       head :unprocessable_entity
